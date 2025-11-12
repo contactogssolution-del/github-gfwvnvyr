@@ -1,6 +1,6 @@
 import { useState, FormEvent } from 'react';
-import emailjs from '@emailjs/browser';
 import { Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -19,23 +19,21 @@ export default function ContactForm() {
     setErrorMessage('');
 
     try {
-      await emailjs.send(
-        'YOUR_SERVICE_ID',
-        'YOUR_TEMPLATE_ID',
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          phone: formData.phone,
-          company: formData.company,
-          message: formData.message,
-        },
-        'YOUR_PUBLIC_KEY'
-      );
+      const { error } = await supabase.from('contact_submissions').insert({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || null,
+        company: formData.company || null,
+        message: formData.message
+      });
+
+      if (error) throw error;
 
       setStatus('success');
       setFormData({ name: '', email: '', phone: '', company: '', message: '' });
       setTimeout(() => setStatus('idle'), 5000);
     } catch (error) {
+      console.error('Error submitting contact form:', error);
       setStatus('error');
       setErrorMessage('Failed to send message. Please try again.');
       setTimeout(() => setStatus('idle'), 5000);

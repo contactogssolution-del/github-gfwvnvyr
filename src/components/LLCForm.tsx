@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Building2, User, Mail, Phone, MapPin, ArrowLeft } from 'lucide-react';
-import emailjs from '@emailjs/browser';
+import { supabase } from '../lib/supabase';
 
 interface LLCFormProps {
   onBack: () => void;
@@ -41,27 +41,25 @@ export default function LLCForm({ onBack, translations }: LLCFormProps) {
     setSubmitStatus('idle');
 
     try {
-      await emailjs.send(
-        'YOUR_SERVICE_ID',
-        'YOUR_TEMPLATE_ID',
-        {
-          company_name: formData.companyName,
-          owner_name: formData.ownerName,
-          email: formData.email,
-          phone: formData.phone,
-          address: formData.address,
-          city: formData.city,
-          state: formData.state,
-          zip_code: formData.zipCode,
-          country: formData.country,
-          business_type: formData.businessType,
-          members: formData.members,
-          ein: formData.ein,
-          bank_account: formData.bankAccount,
-          additional_info: formData.additionalInfo
-        },
-        'YOUR_PUBLIC_KEY'
-      );
+      const { error } = await supabase.from('llc_applications').insert({
+        company_name: formData.companyName,
+        owner_name: formData.ownerName,
+        email: formData.email,
+        phone: formData.phone,
+        address: formData.address,
+        city: formData.city,
+        state: formData.state,
+        zip_code: formData.zipCode,
+        country: formData.country,
+        business_type: formData.businessType,
+        members: formData.members,
+        ein_needed: formData.ein === 'yes',
+        bank_account_needed: formData.bankAccount === 'yes',
+        additional_info: formData.additionalInfo || null,
+        status: 'pending'
+      });
+
+      if (error) throw error;
 
       setSubmitStatus('success');
       setFormData({
@@ -81,6 +79,7 @@ export default function LLCForm({ onBack, translations }: LLCFormProps) {
         additionalInfo: ''
       });
     } catch (error) {
+      console.error('Error submitting application:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);

@@ -6,6 +6,7 @@ import FAQ from './components/FAQ';
 import TrustBadges from './components/TrustBadges';
 import LLCForm from './components/LLCForm';
 import AIChat from './components/AIChat';
+import AdminDashboard from './components/AdminDashboard';
 import { useTheme } from './contexts/ThemeContext';
 import { useLanguage } from './contexts/LanguageContext';
 
@@ -13,6 +14,7 @@ function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showLLCForm, setShowLLCForm] = useState(false);
+  const [showAdmin, setShowAdmin] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { language, setLanguage, t } = useLanguage();
 
@@ -24,10 +26,24 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+        setShowAdmin(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, []);
+
   const handleGetStarted = () => {
     setShowLLCForm(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  if (showAdmin) {
+    return <AdminDashboard onBack={() => setShowAdmin(false)} />;
+  }
 
   if (showLLCForm) {
     return <LLCForm onBack={() => setShowLLCForm(false)} translations={t.form} />;
