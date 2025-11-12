@@ -1,4 +1,4 @@
-import { Building2, Globe, Shield, Zap, CheckCircle, ArrowRight, Menu, X, Moon, Sun, Languages } from 'lucide-react';
+import { Globe, Shield, Zap, CheckCircle, ArrowRight, Menu, X, Languages, Building2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import ContactForm from './components/ContactForm';
 import Testimonials from './components/Testimonials';
@@ -7,6 +7,8 @@ import TrustBadges from './components/TrustBadges';
 import LLCForm from './components/LLCForm';
 import AIChat from './components/AIChat';
 import AdminDashboard from './components/AdminDashboard';
+import Logo from './components/Logo';
+import ThemeSelector from './components/ThemeSelector';
 import { useTheme } from './contexts/ThemeContext';
 import { useLanguage } from './contexts/LanguageContext';
 
@@ -15,7 +17,7 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showLLCForm, setShowLLCForm] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   const { language, setLanguage, t } = useLanguage();
 
   useEffect(() => {
@@ -50,27 +52,22 @@ function App() {
   }
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${theme === 'dark' ? 'dark bg-gray-900' : 'bg-white'}`}>
+    <div className={`min-h-screen transition-colors duration-300 ${
+      theme === 'dark' ? 'dark bg-gray-900' :
+      theme === 'somber' ? 'somber bg-gray-800' :
+      'bg-white'
+    }`}>
       <nav className={`fixed w-full z-50 transition-all duration-300 ${
         isScrolled
-          ? theme === 'dark' ? 'bg-gray-800 shadow-lg' : 'bg-white shadow-lg'
+          ? theme === 'dark' ? 'bg-gray-800 shadow-lg' :
+            theme === 'somber' ? 'bg-gray-700 shadow-lg' :
+            'bg-white shadow-lg'
           : 'bg-transparent'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            <div className="flex items-center space-x-2 animate-fade-in">
-              <Building2 className={`h-8 w-8 transition-colors duration-300 ${
-                isScrolled
-                  ? theme === 'dark' ? 'text-blue-400' : 'text-blue-600'
-                  : 'text-white'
-              }`} />
-              <span className={`text-2xl font-bold transition-colors duration-300 ${
-                isScrolled
-                  ? theme === 'dark' ? 'text-white' : 'text-gray-900'
-                  : 'text-white'
-              }`}>
-                OGS Solution
-              </span>
+            <div className="animate-fade-in">
+              <Logo variant={isScrolled ? 'colored' : 'light'} size="md" />
             </div>
 
             <div className="hidden md:flex items-center space-x-4">
@@ -80,7 +77,7 @@ function App() {
                   href={`#${['services', 'benefits', 'process', 'contact'][index]}`}
                   className={`relative transition-colors duration-300 hover:text-blue-600 after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-blue-600 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full ${
                     isScrolled
-                      ? theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                      ? theme === 'dark' || theme === 'somber' ? 'text-gray-300' : 'text-gray-700'
                       : 'text-white after:bg-white hover:after:bg-blue-600'
                   }`}
                 >
@@ -92,32 +89,19 @@ function App() {
                 onClick={() => setLanguage(language === 'en' ? 'fr' : 'en')}
                 className={`p-2 rounded-full transition-colors duration-300 ${
                   isScrolled
-                    ? theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
+                    ? theme === 'dark' || theme === 'somber' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
                     : 'hover:bg-white/20'
                 }`}
                 title={language === 'en' ? 'Français' : 'English'}
               >
                 <Languages className={`h-5 w-5 ${
                   isScrolled
-                    ? theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                    ? theme === 'dark' || theme === 'somber' ? 'text-gray-300' : 'text-gray-700'
                     : 'text-white'
                 }`} />
               </button>
 
-              <button
-                onClick={toggleTheme}
-                className={`p-2 rounded-full transition-colors duration-300 ${
-                  isScrolled
-                    ? theme === 'dark' ? 'hover:bg-gray-700' : 'hover:bg-gray-100'
-                    : 'hover:bg-white/20'
-                }`}
-              >
-                {theme === 'dark' ? (
-                  <Sun className={`h-5 w-5 ${isScrolled ? 'text-gray-300' : 'text-white'}`} />
-                ) : (
-                  <Moon className={`h-5 w-5 ${isScrolled ? 'text-gray-700' : 'text-white'}`} />
-                )}
-              </button>
+              <ThemeSelector isScrolled={isScrolled} />
 
               <button
                 onClick={handleGetStarted}
@@ -132,22 +116,28 @@ function App() {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? (
-                <X className={isScrolled ? theme === 'dark' ? 'text-white' : 'text-gray-900' : 'text-white'} />
+                <X className={isScrolled ? theme === 'dark' || theme === 'somber' ? 'text-white' : 'text-gray-900' : 'text-white'} />
               ) : (
-                <Menu className={isScrolled ? theme === 'dark' ? 'text-white' : 'text-gray-900' : 'text-white'} />
+                <Menu className={isScrolled ? theme === 'dark' || theme === 'somber' ? 'text-white' : 'text-gray-900' : 'text-white'} />
               )}
             </button>
           </div>
         </div>
 
         {mobileMenuOpen && (
-          <div className={`md:hidden border-t animate-slide-down ${theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white'}`}>
+          <div className={`md:hidden border-t animate-slide-down ${
+            theme === 'dark' ? 'bg-gray-800 border-gray-700' :
+            theme === 'somber' ? 'bg-gray-700 border-gray-600' :
+            'bg-white'
+          }`}>
             <div className="px-4 py-4 space-y-4">
               {[t.nav.services, t.nav.benefits, t.nav.process, t.nav.contact].map((item, index) => (
                 <a
                   key={item}
                   href={`#${['services', 'benefits', 'process', 'contact'][index]}`}
-                  className={`block transition-colors ${theme === 'dark' ? 'text-gray-300 hover:text-blue-400' : 'text-gray-700 hover:text-blue-600'}`}
+                  className={`block transition-colors ${
+                    theme === 'dark' || theme === 'somber' ? 'text-gray-300 hover:text-blue-400' : 'text-gray-700 hover:text-blue-600'
+                  }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item}
@@ -156,16 +146,13 @@ function App() {
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => setLanguage(language === 'en' ? 'fr' : 'en')}
-                  className={`p-2 rounded-full ${theme === 'dark' ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-700'}`}
+                  className={`p-2 rounded-full ${
+                    theme === 'dark' || theme === 'somber' ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-700'
+                  }`}
                 >
                   <Languages className="h-5 w-5" />
                 </button>
-                <button
-                  onClick={toggleTheme}
-                  className={`p-2 rounded-full ${theme === 'dark' ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-700'}`}
-                >
-                  {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-                </button>
+                <ThemeSelector isScrolled={true} />
               </div>
               <button
                 onClick={handleGetStarted}
@@ -226,13 +213,13 @@ function App() {
         </div>
       </section>
 
-      <section id="services" className={`py-24 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
+      <section id="services" className={`py-24 ${theme === 'dark' ? 'bg-gray-800' : theme === 'somber' ? 'bg-gray-700' : 'bg-gray-50'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className={`text-4xl md:text-5xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-4xl md:text-5xl font-bold mb-4 ${theme === 'dark' || theme === 'somber' ? 'text-white' : 'text-gray-900'}`}>
               {t.services.title}
             </h2>
-            <p className={`text-xl max-w-2xl mx-auto ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className={`text-xl max-w-2xl mx-auto ${theme === 'dark' || theme === 'somber' ? 'text-gray-300' : 'text-gray-600'}`}>
               {t.services.subtitle}
             </p>
           </div>
@@ -263,31 +250,31 @@ function App() {
               <div
                 key={feature.title}
                 className={`p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up group cursor-pointer border-2 border-transparent ${
-                  theme === 'dark'
-                    ? 'bg-gray-700 hover:border-blue-400'
-                    : 'bg-white hover:border-blue-100'
+                  theme === 'dark' ? 'bg-gray-700 hover:border-blue-400' :
+                  theme === 'somber' ? 'bg-gray-600 hover:border-blue-400' :
+                  'bg-white hover:border-blue-100'
                 }`}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">{feature.icon}</div>
                 <h3 className={`text-xl font-bold mb-3 group-hover:text-blue-600 transition-colors duration-300 ${
-                  theme === 'dark' ? 'text-white' : 'text-gray-900'
+                  theme === 'dark' || theme === 'somber' ? 'text-white' : 'text-gray-900'
                 }`}>{feature.title}</h3>
-                <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>{feature.description}</p>
+                <p className={theme === 'dark' || theme === 'somber' ? 'text-gray-300' : 'text-gray-600'}>{feature.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="benefits" className={`py-24 ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
+      <section id="benefits" className={`py-24 ${theme === 'dark' ? 'bg-gray-900' : theme === 'somber' ? 'bg-gray-800' : 'bg-white'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className={`text-4xl md:text-5xl font-bold mb-6 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              <h2 className={`text-4xl md:text-5xl font-bold mb-6 ${theme === 'dark' || theme === 'somber' ? 'text-white' : 'text-gray-900'}`}>
                 {t.benefits.title}
               </h2>
-              <p className={`text-xl mb-8 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+              <p className={`text-xl mb-8 ${theme === 'dark' || theme === 'somber' ? 'text-gray-300' : 'text-gray-600'}`}>
                 {t.benefits.description}
               </p>
 
@@ -299,7 +286,7 @@ function App() {
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
                     <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0 mt-1" />
-                    <span className={`text-lg ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>{benefit}</span>
+                    <span className={`text-lg ${theme === 'dark' || theme === 'somber' ? 'text-gray-300' : 'text-gray-700'}`}>{benefit}</span>
                   </div>
                 ))}
               </div>
@@ -332,13 +319,13 @@ function App() {
         </div>
       </section>
 
-      <section id="process" className={`py-24 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-50'}`}>
+      <section id="process" className={`py-24 ${theme === 'dark' ? 'bg-gray-800' : theme === 'somber' ? 'bg-gray-700' : 'bg-gray-50'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className={`text-4xl md:text-5xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-4xl md:text-5xl font-bold mb-4 ${theme === 'dark' || theme === 'somber' ? 'text-white' : 'text-gray-900'}`}>
               {t.process.title}
             </h2>
-            <p className={`text-xl max-w-2xl mx-auto ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className={`text-xl max-w-2xl mx-auto ${theme === 'dark' || theme === 'somber' ? 'text-gray-300' : 'text-gray-600'}`}>
               {t.process.subtitle}
             </p>
           </div>
@@ -348,18 +335,18 @@ function App() {
               <div
                 key={index}
                 className={`relative p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up group cursor-pointer overflow-hidden ${
-                  theme === 'dark' ? 'bg-gray-700' : 'bg-white'
+                  theme === 'dark' ? 'bg-gray-700' : theme === 'somber' ? 'bg-gray-600' : 'bg-white'
                 }`}
                 style={{ animationDelay: `${index * 150}ms` }}
               >
                 <div className="absolute top-0 right-0 w-20 h-20 bg-blue-50 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className={`text-6xl font-bold mb-4 group-hover:text-blue-200 transition-colors duration-300 ${
-                  theme === 'dark' ? 'text-gray-600' : 'text-blue-100'
+                  theme === 'dark' || theme === 'somber' ? 'text-gray-600' : 'text-blue-100'
                 }`}>0{index + 1}</div>
                 <h3 className={`text-2xl font-bold mb-3 group-hover:text-blue-600 transition-colors duration-300 ${
-                  theme === 'dark' ? 'text-white' : 'text-gray-900'
+                  theme === 'dark' || theme === 'somber' ? 'text-white' : 'text-gray-900'
                 }`}>{step.title}</h3>
-                <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}>{step.description}</p>
+                <p className={theme === 'dark' || theme === 'somber' ? 'text-gray-300' : 'text-gray-600'}>{step.description}</p>
               </div>
             ))}
           </div>
