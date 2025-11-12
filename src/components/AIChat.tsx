@@ -14,19 +14,35 @@ interface AIChatProps {
 
 export default function AIChat({ translations }: AIChatProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const getWelcomeMessage = () => {
+    return translations.language === 'fr'
+      ? 'Bonjour! Je suis votre assistant IA. Comment puis-je vous aider avec la formation de votre LLC aujourd\'hui?'
+      : 'Hello! I\'m your AI assistant. How can I help you with your LLC formation today?';
+  };
+
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: translations.language === 'fr'
-        ? 'Bonjour! Je suis votre assistant IA. Comment puis-je vous aider avec la formation de votre LLC aujourd\'hui?'
-        : 'Hello! I\'m your AI assistant. How can I help you with your LLC formation today?',
+      text: getWelcomeMessage(),
       sender: 'bot',
       timestamp: new Date()
     }
   ]);
-  const [inputValue, setInputValue] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMessages([
+      {
+        id: '1',
+        text: getWelcomeMessage(),
+        sender: 'bot',
+        timestamp: new Date()
+      }
+    ]);
+  }, [translations.language]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -131,43 +147,52 @@ export default function AIChat({ translations }: AIChatProps) {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-2xl hover:bg-blue-700 transition-all duration-300 hover:scale-110 z-50 animate-bounce"
+          className="fixed bottom-6 right-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 rounded-full shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-110 z-50 group"
+          aria-label="Open AI Chat"
         >
-          <MessageCircle className="h-6 w-6" />
+          <MessageCircle className="h-6 w-6 group-hover:animate-pulse" />
+          <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse"></span>
         </button>
       )}
 
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-96 h-[600px] bg-white rounded-2xl shadow-2xl flex flex-col z-50 animate-slide-up border border-gray-200">
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 rounded-t-2xl flex items-center justify-between">
+        <div className="fixed bottom-6 right-6 w-96 h-[600px] bg-white dark:bg-gray-800 rounded-2xl shadow-2xl flex flex-col z-50 animate-slide-up border border-gray-200 dark:border-gray-700">
+          <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 text-white p-4 rounded-t-2xl flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <Bot className="h-6 w-6" />
-              <h3 className="font-semibold">{translations.chat.title}</h3>
+              <div className="relative">
+                <Bot className="h-6 w-6" />
+                <span className="absolute -bottom-1 -right-1 w-2 h-2 bg-green-400 rounded-full"></span>
+              </div>
+              <div>
+                <h3 className="font-semibold">{translations.title}</h3>
+                <p className="text-xs text-blue-100">Online</p>
+              </div>
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="hover:bg-blue-500 p-1 rounded transition-colors"
+              className="hover:bg-white/20 p-1 rounded transition-colors"
+              aria-label="Close chat"
             >
               <X className="h-5 w-5" />
             </button>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-900">
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`}
               >
                 <div
-                  className={`max-w-[80%] p-3 rounded-2xl ${
+                  className={`max-w-[80%] p-3 rounded-2xl shadow-sm ${
                     message.sender === 'user'
-                      ? 'bg-blue-600 text-white rounded-br-none'
-                      : 'bg-gray-100 text-gray-800 rounded-bl-none'
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-br-none'
+                      : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 rounded-bl-none border border-gray-200 dark:border-gray-700'
                   }`}
                 >
-                  <p className="text-sm">{message.text}</p>
+                  <p className="text-sm leading-relaxed">{message.text}</p>
                   <p className={`text-xs mt-1 ${
-                    message.sender === 'user' ? 'text-blue-200' : 'text-gray-500'
+                    message.sender === 'user' ? 'text-blue-200' : 'text-gray-500 dark:text-gray-400'
                   }`}>
                     {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </p>
@@ -175,8 +200,8 @@ export default function AIChat({ translations }: AIChatProps) {
               </div>
             ))}
             {isTyping && (
-              <div className="flex justify-start">
-                <div className="bg-gray-100 text-gray-800 p-3 rounded-2xl rounded-bl-none">
+              <div className="flex justify-start animate-fade-in">
+                <div className="bg-white dark:bg-gray-800 text-gray-800 p-3 rounded-2xl rounded-bl-none border border-gray-200 dark:border-gray-700">
                   <div className="flex space-x-2">
                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
@@ -188,20 +213,21 @@ export default function AIChat({ translations }: AIChatProps) {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="p-4 border-t">
+          <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
             <div className="flex space-x-2">
               <input
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder={translations.chat.placeholder}
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder={translations.placeholder}
+                className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-full focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 transition-all"
               />
               <button
                 onClick={handleSend}
                 disabled={!inputValue.trim()}
-                className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-3 rounded-full hover:shadow-lg hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                aria-label="Send message"
               >
                 <Send className="h-5 w-5" />
               </button>
