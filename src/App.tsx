@@ -165,48 +165,58 @@ function App() {
         )}
       </nav>
 
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-white rounded-full mix-blend-overlay filter blur-3xl animate-blob"></div>
-          <div className="absolute top-40 right-10 w-72 h-72 bg-blue-300 rounded-full mix-blend-overlay filter blur-3xl animate-blob animation-delay-2000"></div>
-          <div className="absolute bottom-20 left-1/3 w-72 h-72 bg-blue-200 rounded-full mix-blend-overlay filter blur-3xl animate-blob animation-delay-4000"></div>
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-blue-900">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djItaDJjMC0yLjIxLTEuNzktNC00LTRzLTQgMS43OS00IDR2MmgtMnYtMmMwLTMuMzEgMi42OS02IDYtNnM2IDIuNjkgNiA2ek0wIDM0djItaDJ2LTJoLTJ6bTI4IDB2Mmgydi0yaC0yem0tMTQgMHYyaDJ2LTJoLTJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
+          <div className="absolute top-20 left-10 w-96 h-96 bg-purple-400 rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-blob"></div>
+          <div className="absolute top-40 right-10 w-96 h-96 bg-blue-300 rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+          <div className="absolute bottom-20 left-1/3 w-96 h-96 bg-blue-400 rounded-full mix-blend-overlay filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 to-transparent"></div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in-up">
+          <div className="inline-block mb-6 px-6 py-2 bg-white/10 backdrop-blur-lg rounded-full border border-white/20 animate-fade-in">
+            <span className="text-sm font-semibold text-white">🚀 #1 LLC Formation Service</span>
+          </div>
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white mb-6 animate-fade-in-up tracking-tight">
             {t.hero.title}
             <br />
-            <span className="text-blue-200">{t.hero.subtitle}</span>
+            <span className="bg-gradient-to-r from-blue-200 via-purple-200 to-blue-300 bg-clip-text text-transparent">{t.hero.subtitle}</span>
           </h1>
-          <p className="text-xl md:text-2xl text-blue-100 mb-12 max-w-3xl mx-auto animate-fade-in-up animation-delay-200">
+          <p className="text-xl md:text-2xl text-blue-100 mb-12 max-w-3xl mx-auto animate-fade-in-up animation-delay-200 leading-relaxed">
             {t.hero.description}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-400">
             <button
               onClick={handleGetStarted}
-              className="bg-white text-blue-600 px-8 py-4 rounded-full text-lg font-semibold hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center space-x-2 group"
+              className="relative bg-white text-blue-600 px-10 py-5 rounded-full text-lg font-bold hover:shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center space-x-2 group overflow-hidden"
             >
-              <span>{t.hero.startButton}</span>
-              <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+              <span className="relative z-10">{t.hero.startButton}</span>
+              <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300 relative z-10" />
             </button>
             <a
               href="#services"
-              className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300 hover:scale-105 active:scale-95"
+              className="relative border-2 border-white/50 backdrop-blur-sm bg-white/5 text-white px-10 py-5 rounded-full text-lg font-bold hover:bg-white hover:text-blue-600 transition-all duration-300 hover:scale-105 active:scale-95 hover:border-white group"
             >
-              {t.hero.learnMore}
+              <span className="relative z-10">{t.hero.learnMore}</span>
             </a>
           </div>
 
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 animate-fade-in-up animation-delay-600">
+          <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 animate-fade-in-up animation-delay-600">
             {[
               { number: '10K+', label: t.hero.stats.llcs },
               { number: '150+', label: t.hero.stats.countries },
               { number: '48h', label: t.hero.stats.time },
               { number: '99%', label: t.hero.stats.success }
-            ].map((stat) => (
-              <div key={stat.label} className="text-white">
-                <div className="text-4xl md:text-5xl font-bold mb-2">{stat.number}</div>
-                <div className="text-blue-200 text-sm md:text-base">{stat.label}</div>
+            ].map((stat, index) => (
+              <div key={stat.label} className="relative group">
+                <div className="absolute inset-0 bg-white/5 backdrop-blur-lg rounded-2xl transform group-hover:scale-105 transition-transform duration-300"></div>
+                <div className="relative p-6 rounded-2xl border border-white/10 backdrop-blur-sm">
+                  <div className="text-5xl md:text-6xl font-black mb-2 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">{stat.number}</div>
+                  <div className="text-blue-200 text-sm md:text-base font-semibold">{stat.label}</div>
+                  <div className="absolute top-4 right-4 w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                </div>
               </div>
             ))}
           </div>
@@ -227,40 +237,50 @@ function App() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               {
-                icon: <Zap className="h-12 w-12 text-blue-600" />,
+                icon: <Zap className="h-12 w-12" />,
                 title: t.services.fast.title,
-                description: t.services.fast.description
+                description: t.services.fast.description,
+                gradient: 'from-blue-500 to-cyan-500'
               },
               {
-                icon: <Shield className="h-12 w-12 text-blue-600" />,
+                icon: <Shield className="h-12 w-12" />,
                 title: t.services.compliant.title,
-                description: t.services.compliant.description
+                description: t.services.compliant.description,
+                gradient: 'from-purple-500 to-pink-500'
               },
               {
-                icon: <Globe className="h-12 w-12 text-blue-600" />,
+                icon: <Globe className="h-12 w-12" />,
                 title: t.services.global.title,
-                description: t.services.global.description
+                description: t.services.global.description,
+                gradient: 'from-green-500 to-emerald-500'
               },
               {
-                icon: <Building2 className="h-12 w-12 text-blue-600" />,
+                icon: <Building2 className="h-12 w-12" />,
                 title: t.services.package.title,
-                description: t.services.package.description
+                description: t.services.package.description,
+                gradient: 'from-orange-500 to-red-500'
               }
             ].map((feature, index) => (
               <div
                 key={feature.title}
-                className={`p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fade-in-up group cursor-pointer border-2 border-transparent ${
-                  theme === 'dark' ? 'bg-gray-700 hover:border-blue-400' :
-                  theme === 'somber' ? 'bg-gray-600 hover:border-blue-400' :
-                  'bg-white hover:border-blue-100'
+                className={`relative p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 animate-fade-in-up group cursor-pointer overflow-hidden ${
+                  theme === 'dark' ? 'bg-gray-700' :
+                  theme === 'somber' ? 'bg-gray-600' :
+                  'bg-white'
                 }`}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300">{feature.icon}</div>
-                <h3 className={`text-xl font-bold mb-3 group-hover:text-blue-600 transition-colors duration-300 ${
-                  theme === 'dark' || theme === 'somber' ? 'text-white' : 'text-gray-900'
-                }`}>{feature.title}</h3>
-                <p className={theme === 'dark' || theme === 'somber' ? 'text-gray-300' : 'text-gray-600'}>{feature.description}</p>
+                <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+                <div className={`absolute -inset-1 bg-gradient-to-br ${feature.gradient} rounded-2xl blur opacity-0 group-hover:opacity-30 transition-opacity duration-500`}></div>
+                <div className="relative">
+                  <div className={`mb-6 p-4 rounded-xl bg-gradient-to-br ${feature.gradient} inline-block transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-lg`}>
+                    <div className="text-white">{feature.icon}</div>
+                  </div>
+                  <h3 className={`text-xl font-bold mb-3 transition-colors duration-300 ${
+                    theme === 'dark' || theme === 'somber' ? 'text-white' : 'text-gray-900'
+                  }`}>{feature.title}</h3>
+                  <p className={`leading-relaxed ${theme === 'dark' || theme === 'somber' ? 'text-gray-300' : 'text-gray-600'}`}>{feature.description}</p>
+                </div>
               </div>
             ))}
           </div>
