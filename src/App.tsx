@@ -1,4 +1,4 @@
-import { Globe, Shield, Zap, CheckCircle, ArrowRight, Menu, X, Languages, Building2 } from 'lucide-react';
+import { Globe, Shield, Zap, CheckCircle, ArrowRight, Menu, X, Languages, Building2, MessageCircle as WhatsAppIcon } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import ContactForm from './components/ContactForm';
 import Testimonials from './components/Testimonials';
@@ -438,6 +438,17 @@ function App() {
       </footer>
 
       <AIChat translations={{ ...t.chat, language }} />
+
+      <a
+        href="https://wa.me/212691181002"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 left-6 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 hover:shadow-green-500/50 transition-all duration-300 hover:scale-110 z-50 group"
+        aria-label="Contact us on WhatsApp"
+      >
+        <WhatsAppIcon className="h-6 w-6 group-hover:animate-pulse" />
+        <span className="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full animate-pulse"></span>
+      </a>
     </div>
   );
 }
