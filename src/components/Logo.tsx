@@ -5,9 +5,9 @@ interface LogoProps {
 
 export default function Logo({ variant = 'colored', size = 'md' }: LogoProps) {
   const sizes = {
-    sm: { height: '32px' },
-    md: { height: '48px' },
-    lg: { height: '64px' }
+    sm: { height: '32px', text: 'text-xs', spacing: 'space-x-2' },
+    md: { height: '48px', text: 'text-sm', spacing: 'space-x-3' },
+    lg: { height: '64px', text: 'text-base', spacing: 'space-x-4' }
   };
 
   const getLogoColor = () => {
@@ -23,8 +23,21 @@ export default function Logo({ variant = 'colored', size = 'md' }: LogoProps) {
     }
   };
 
+  const getTextColor = () => {
+    switch (variant) {
+      case 'light':
+        return 'text-white';
+      case 'dark':
+        return 'text-gray-900';
+      case 'colored':
+        return 'text-blue-600';
+      default:
+        return 'text-blue-600';
+    }
+  };
+
   return (
-    <div className="flex items-center group cursor-pointer relative">
+    <div className={`flex items-center ${sizes[size].spacing} group cursor-pointer relative`}>
       <svg
         height={sizes[size].height}
         viewBox="0 0 500 500"
@@ -63,6 +76,15 @@ export default function Logo({ variant = 'colored', size = 'md' }: LogoProps) {
           />
         </g>
       </svg>
+
+      <span
+        className={`${sizes[size].text} font-bold tracking-wider uppercase ${getTextColor()} transition-colors duration-300`}
+        style={{
+          textShadow: variant === 'light' ? '0 2px 8px rgba(0,0,0,0.3)' : 'none'
+        }}
+      >
+        SOLUTION
+      </span>
 
       {/* Animated glow effect for colored variant */}
       {variant === 'colored' && (
