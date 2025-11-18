@@ -58,8 +58,8 @@ export default function AIChat({ translations }: AIChatProps) {
 
     if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('prix') || lowerMessage.includes('coût')) {
       return isFrench
-        ? 'Notre service de formation de LLC coûte 499$ (frais uniques). Cela inclut tout: enregistrement LLC, numéro EIN, agent enregistré pendant 1 an, assistance pour le compte bancaire, et bien plus encore!'
-        : 'Our LLC formation service costs $499 (one-time fee). This includes everything: LLC registration, EIN number, 1-year registered agent, bank account assistance, and more!';
+        ? 'Notre service de formation de LLC coûte 129$ (frais uniques). Cela inclut tout: enregistrement LLC, numéro EIN, agent enregistré pendant 1 an, assistance pour le compte bancaire, et bien plus encore!'
+        : 'Our LLC formation service costs $129 (one-time fee). This includes everything: LLC registration, EIN number, 1-year registered agent, bank account assistance, and more!';
     }
 
     if (lowerMessage.includes('time') || lowerMessage.includes('how long') || lowerMessage.includes('temps') || lowerMessage.includes('combien de temps')) {

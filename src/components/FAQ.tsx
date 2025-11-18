@@ -11,7 +11,7 @@ const faqs = [
     answer: 'No! You do not need to be a US citizen or resident to form an LLC in the United States. We help entrepreneurs from over 150 countries establish their US business presence.',
   },
   {
-    question: 'What is included in the $499 package?',
+    question: 'What is included in the $129 package?',
     answer: 'Our package includes complete LLC registration, EIN (Tax ID) application, 1 year of registered agent service, operating agreement template, US business address, bank account setup assistance, and ongoing compliance support.',
   },
   {

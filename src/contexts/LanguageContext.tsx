@@ -61,7 +61,7 @@ const translations: Record<Language, Translations> = {
         'Ongoing compliance support',
         '24/7 customer support'
       ],
-      price: '$499',
+      price: '$129',
       priceSubtitle: 'One-time fee',
       features: [
         'No hidden fees',
@@ -193,7 +193,7 @@ const translations: Record<Language, Translations> = {
         'Support de conformité continue',
         'Support client 24/7'
       ],
-      price: '499$',
+      price: '129$',
       priceSubtitle: 'Frais uniques',
       features: [
         'Pas de frais cachés',
