@@ -1,5 +1,3 @@
-import { Building2, Sparkles } from 'lucide-react';
-
 interface LogoProps {
   variant?: 'light' | 'dark' | 'colored';
   size?: 'sm' | 'md' | 'lg';
@@ -7,53 +5,71 @@ interface LogoProps {
 
 export default function Logo({ variant = 'colored', size = 'md' }: LogoProps) {
   const sizes = {
-    sm: { icon: 'h-5 w-5', text: 'text-lg', subtext: 'text-[9px]', container: 'space-x-2', iconPadding: 'p-1.5' },
-    md: { icon: 'h-6 w-6', text: 'text-2xl', subtext: 'text-[10px]', container: 'space-x-2.5', iconPadding: 'p-2' },
-    lg: { icon: 'h-10 w-10', text: 'text-4xl', subtext: 'text-xs', container: 'space-x-3', iconPadding: 'p-3' }
+    sm: { height: '32px' },
+    md: { height: '48px' },
+    lg: { height: '64px' }
   };
 
-  const variants = {
-    light: 'text-white',
-    dark: 'text-gray-900',
-    colored: 'text-blue-600'
+  const getLogoColor = () => {
+    switch (variant) {
+      case 'light':
+        return 'brightness-0 invert';
+      case 'dark':
+        return 'brightness-0';
+      case 'colored':
+        return 'brightness-0 invert sepia saturate-[300%] hue-rotate-190deg brightness-90';
+      default:
+        return '';
+    }
   };
 
   return (
-    <div className={`flex items-center ${sizes[size].container} group cursor-pointer relative`}>
-      <div className="relative">
-        <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-600 rounded-xl blur opacity-40 group-hover:opacity-70 transition duration-500 group-hover:duration-200 animate-pulse"></div>
-        <div className={`relative bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 ${sizes[size].iconPadding} rounded-xl shadow-2xl transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 ring-2 ring-blue-400/50`}>
-          <Building2 className={`${sizes[size].icon} text-white drop-shadow-lg`} strokeWidth={2.5} />
-          <Sparkles className="absolute -top-1 -right-1 h-3 w-3 text-yellow-300 animate-pulse" />
+    <div className="flex items-center group cursor-pointer relative">
+      <svg
+        height={sizes[size].height}
+        viewBox="0 0 500 500"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className={`transition-all duration-300 group-hover:scale-105 ${getLogoColor()}`}
+        style={{
+          filter: variant === 'colored'
+            ? `${getLogoColor()} drop-shadow(0 4px 12px rgba(37, 99, 235, 0.4))`
+            : variant === 'light'
+            ? `${getLogoColor()} drop-shadow(0 4px 12px rgba(255, 255, 255, 0.3))`
+            : `${getLogoColor()} drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15))`,
+          width: 'auto'
+        }}
+      >
+        {/* OGS Logo - Recreated from your image with geometric precision */}
+        <g transform="translate(50, 100)">
+          {/* Letter O */}
+          <path
+            d="M 0,50 L 20,35 L 60,35 L 80,50 L 80,200 L 60,215 L 20,215 L 0,200 Z
+               M 30,60 L 30,190 L 50,190 L 50,60 Z"
+            fill="currentColor"
+          />
+
+          {/* Letter G */}
+          <path
+            d="M 110,50 L 130,35 L 170,35 L 190,50 L 190,125 L 150,125 L 150,145 L 190,145 L 190,200 L 170,215 L 130,215 L 110,200 Z
+               M 140,60 L 140,95 L 160,95 L 160,190 L 140,190 L 140,60 Z"
+            fill="currentColor"
+          />
+
+          {/* Letter S */}
+          <path
+            d="M 220,50 L 240,35 L 320,35 L 340,50 L 340,90 L 320,105 L 270,105 L 250,120 L 250,160 L 270,145 L 320,145 L 340,160 L 340,200 L 320,215 L 240,215 L 220,200 L 220,160 L 240,145 L 290,145 L 310,130 L 310,90 L 290,105 L 240,105 L 220,90 Z"
+            fill="currentColor"
+          />
+        </g>
+      </svg>
+
+      {/* Animated glow effect for colored variant */}
+      {variant === 'colored' && (
+        <div className="absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-blue-600/30 rounded-xl blur-2xl animate-pulse"></div>
         </div>
-      </div>
-      <div className="flex flex-col leading-none relative">
-        <div className="relative">
-          <span className={`${sizes[size].text} font-black tracking-tighter ${variants[variant]} transition-colors duration-300 relative z-10`}
-            style={{
-              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-              textShadow: variant === 'light' ? '0 2px 10px rgba(0,0,0,0.3)' : 'none'
-            }}>
-            OGS
-          </span>
-          {variant === 'colored' && (
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-20 blur-sm"></div>
-          )}
-        </div>
-        <div className="flex items-center space-x-1">
-          <span className={`${sizes[size].subtext} font-bold tracking-[0.2em] uppercase ${
-            variant === 'light' ? 'text-blue-200' : 'text-blue-600'
-          } transition-colors duration-300`}
-            style={{
-              letterSpacing: '0.15em'
-            }}>
-            Solution
-          </span>
-          <div className={`h-1 w-1 rounded-full ${
-            variant === 'light' ? 'bg-blue-300' : 'bg-blue-500'
-          } animate-pulse`}></div>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
